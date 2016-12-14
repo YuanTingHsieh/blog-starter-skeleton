@@ -8,13 +8,16 @@ class ArticlesPage extends Component {
     this.state = {
       articles: [],
     };
+
+    this.renderArticles = this.renderArticles.bind(this);
   }
 
   componentDidMount() {
     // fetch here
     fetch('/api/articles')
-      .then(res => res.json())
-      .then(json => { this.setState({ articles: json }); });
+    .then(res => res.json())
+    .then(json => { this.setState({ articles: json }); });
+    console.log(this.state.articles);
   }
 
   renderArticles() {
@@ -28,7 +31,7 @@ class ArticlesPage extends Component {
       <div className="container">
         <div className="row">
           <div className="col-md-12">
-            <table class="table table-striped table-bordered table-hover">
+            <table className="table table-striped table-bordered table-hover">
               <thead>
                 <tr><th>ID</th><th>Title</th><th>Tags</th></tr>
               </thead>
