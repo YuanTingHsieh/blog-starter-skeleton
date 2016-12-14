@@ -98,7 +98,7 @@ class SingleArticlePage extends Component {
     }
     else {
       return <div>
-        {this.state.tags.map((tag,index) => <button key={index + 1}
+        {this.state.tags.map((tag,index) => <button key={index}
           type="button"
           className="btn btn-secondary btn-sm">#{tag}</button>)}
       </div>;
