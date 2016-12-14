@@ -1,5 +1,9 @@
 import 'isomorphic-fetch';
 import React, { Component, PropTypes } from 'react';
+import TagsInput from 'react-tagsinput';
+import 'react-tagsinput/react-tagsinput.css';
+import ReactQuill from 'react-quill';
+import 'quill/dist/quill.snow.css';
 
 class SingleArticlePage extends Component {
   static propTypes = {
