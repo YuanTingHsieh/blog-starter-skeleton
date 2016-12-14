@@ -1,7 +1,9 @@
 import 'isomorphic-fetch';
 import React, { Component } from 'react';
-react-tagsinput??
-react-quill??quill.snow.css
+import TagsInput from 'react-tagsinput';
+import 'react-tagsinput/react-tagsinput.css';
+import ReactQuill from 'react-quill';
+import 'quill/dist/quill.snow.css';
 
 class CreateArticlePage extends Component {
   constructor(props) {
@@ -11,13 +13,50 @@ class CreateArticlePage extends Component {
       content: '',
       tags: [],
     };
+
+    this.handleTitleChange = this.handleTitleChange.bind(this);
+    this.handleTagsChange = this.handleTagsChange.bind(this);
+    this.handleContentChange = this.handleContentChange.bind(this);
+    this.handleSubmitClick = this.handleSubmitClick.bind(this);
+    this.clearState = this.clearState.bind(this);
+  }
+
+  handleTitleChange = (t) => {
+    this.setState({ title: t.target.value });
+  }
+
+  handleTagsChange(tags) {
+    this.setState({ tags: tags });
+  }
+
+  handleContentChange = (con) => {
+    this.setState({ content: con });
   }
 
   handleSubmitClick = () => {
     const confirm = window.confirm('確定要新增文章嗎？');
     if (confirm) {
       // fetch here
+      fetch("/api/articles/", {
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        },
+        method: "POST",
+        body: JSON.stringify({ 
+          title: this.state.title,
+          content: this.state.content,
+          tags: this.state.tags
+        })
+      })
+      .then( () => this.clearState())
+      .catch(function(res){ console.log(res) })
+      .then( () => document.location.href= "#/articles");
     }
+  }
+
+  clearState = () => {
+    this.setState({title: '', content: '', tags: [], tag: '',});
   }
 
   render() {
@@ -34,17 +73,17 @@ class CreateArticlePage extends Component {
         </div>
         <div className="row">
           <div className="col-md-12">
-            {/* title */}
+            <input type="text" className="form-control" value={this.state.title} onChange={this.handleTitleChange} placeholder="New Title"></input>
           </div>
         </div>
         <div className="row">
           <div className="col-md-12">
-            {/* tags */}
+            <TagsInput value={this.state.tags} onChange={this.handleTagsChange}/> 
           </div>
         </div>
         <div className="row">
           <div className="col-md-12">
-            {/* content */}
+            <ReactQuill theme="snow" value={this.state.content} onChange={this.handleContentChange}/>
           </div>
         </div>
       </div>
