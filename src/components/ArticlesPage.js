@@ -19,7 +19,7 @@ class ArticlesPage extends Component {
 
   renderArticles() {
     return this.state.articles.map((article, index) => {
-      <tr><th><a href='{articles.id}'>{article.id}</a></th><th>{article.title}</th><th>{article.tags.join(' ')}</th></tr>
+      <tr><th><a href={`/${item._id}`}>{article.id}</a></th><th>{article.title}</th><th>{article.tags.join(' ')}</th></tr>
     });
   }
 
@@ -32,7 +32,7 @@ class ArticlesPage extends Component {
               <thead>
                 <tr><th>ID</th><th>Title</th><th>Tags</th></tr>
               </thead>
-              <tbody data-link="row" class="rowlink">
+              <tbody>
                 {this.renderArticles()}
               </tbody>
             </table>
