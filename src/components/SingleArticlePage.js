@@ -94,7 +94,7 @@ class SingleArticlePage extends Component {
 
   renderTags = () => {
     if(this.state.isEditing){
-      return <TagsInput value={this.state.tags} onChange={this.handleTagsChange}/>;
+      return <TagsInput value={this.state.tags} onChange={this.handleTagsChange} />;
     }
     else {
       return <div>
@@ -107,7 +107,7 @@ class SingleArticlePage extends Component {
 
   renderContent = () => {
     if(this.state.isEditing){
-      return <ReactQuill theme="snow" value={this.state.content} onChange={this.handleQuillChange}/>;
+      return <ReactQuill theme="snow" value={this.state.content} onChange={this.handleContentChange} />;
     }
     else {
       return <div className="jumbotron" dangerouslySetInnerHTML={{__html: this.state.content}}/>;
