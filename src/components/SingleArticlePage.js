@@ -25,21 +25,24 @@ class SingleArticlePage extends Component {
 
   componentDidMount() {
     // fetch with id
-    fetch('/api/articles/'+this.props.id)
+    if(this.props.id === '') {
+      return;
+    }
+    fetch(`/api/articles/${this.props.id}`)
     .then(res => res.json())
     .then(json => { 
       this.setState({ title: json.title, content: json.content, tags: json.tags });
     });
   }
 
-  componentDidUpdate() {
+  /*componentDidUpdate() {
     // fetch with id
-    fetch('/api/articles/'+this.props.id)
+    fetch(`/api/articles/${this.props.id}`)
     .then(res => res.json())
     .then(json => { 
       this.setState({ title: json.title, content: json.content, tags: json.tags });
     });
-  }
+  }*/
 
   handleTitleChange = (t) => {
     this.setState({ title: t.target.value });
