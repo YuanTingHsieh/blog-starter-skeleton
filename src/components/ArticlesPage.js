@@ -16,7 +16,7 @@ class ArticlesPage extends Component {
     // fetch here
     fetch('/api/articles')
     .then(res => res.json())
-    .then(json => { this.setState({ articles: json }); console.log(json); });
+    .then(json => { this.setState({ articles: json.articles }); console.log(json); });
     console.log(this.state.articles);
   }
 
