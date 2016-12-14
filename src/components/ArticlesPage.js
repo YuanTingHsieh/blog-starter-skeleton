@@ -14,12 +14,12 @@ class ArticlesPage extends Component {
     // fetch here
     fetch('/api/articles')
       .then(res => res.json())
-      .then(json => { this.setState({ articles: articles }); });
+      .then(json => { this.setState({ articles: json }); });
   }
 
   renderArticles() {
     return this.state.articles.map((article, index) => {
-      <tr><th><a href={`/${item._id}`}>{article.id}</a></th><th>{article.title}</th><th>{article.tags.join(' ')}</th></tr>
+      <tr><th><a href={`/${article.id}`}>{article.id}</a></th><th>{article.title}</th><th>{article.tags.join(' ')}</th></tr>
     });
   }
 
