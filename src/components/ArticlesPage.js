@@ -21,7 +21,7 @@ class ArticlesPage extends Component {
 
   renderArticles() {
     return this.state.articles.map((article, index) => {
-      return <tr><th><a href={`#/articles/${article._id}`}>{article._id}</a></th><th>{article.title}</th><th>{article.tags.join(' ')}</th></tr>
+      return <tr key={index}><th><a href={`#/articles/${article._id}`}>{article._id}</a></th><th>{article.title}</th><th>{article.tags.join(' ')}</th></tr>
     });
   }
 

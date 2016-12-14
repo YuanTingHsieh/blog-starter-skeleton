@@ -13,29 +13,106 @@ class SingleArticlePage extends Component {
       tags: [],
       isEditing: false,
     };
+    this.handleTitleChange = this.handleTitleChange.bind(this);
+    this.handleTagsChange = this.handleTagsChange.bind(this);
+    this.handleContentChange = this.handleContentChange.bind(this);
+    this.handleDelClick = this.handleDelClick.bind(this);
+    this.handleEditClick = this.handleEditClick.bind(this);
+    this.renderTitle = this.renderTitle.bind(this);
+    this.renderTags = this.renderTags.bind(this);
+    this.renderContent = this.renderContent.bind(this);
   }
 
   componentDidMount() {
     // fetch with id
+    fetch('/api/articles/'+this.props.id)
+    .then(res => res.json())
+    .then(json => { 
+      this.setState({ title: json.title, content: json.content, tags: json.tags });
+    });
   }
 
   componentDidUpdate() {
     // fetch with id
+    fetch('/api/articles/'+this.props.id)
+    .then(res => res.json())
+    .then(json => { 
+      this.setState({ title: json.title, content: json.content, tags: json.tags });
+    });
   }
 
-  handleTagsChange = () => {};
+  handleTitleChange = (t) => {
+    this.setState({ title: t.target.value });
+  }
 
-  handleTitleChange = () => {};
+  handleTagsChange(tags) {
+    this.setState({ tags: tags });
+  }
 
-  handleDelClick = () => {};
+  handleContentChange = (con) => {
+    this.setState({ content: con });
+  }
 
-  handleEditClick = () => {};
+  handleDelClick = () => {
+    const confirm = window.confirm('Are you sure you want to delete this article?');
+    if (confirm) {
+      fetch('/api/articles/'+this.props.id, {
+        method: 'DELETE'
+      }).then( document.location.href = "#/articles");
+    }
+  };
 
-  renderTitle = () => {};
+  handleEditClick = () => {
+    if(this.state.isEditing === false){
+      this.setState({isEditing: true, });
+    }
+    else {
+      this.setState({isEditing: false});
+      fetch('/api/articles/'+this.props.id, {
+        method: 'PUT',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          title: this.state.title,
+          content: this.state.content,
+          tags: this.state.tags,
+        }),
+      });
+    }
+  };
 
-  renderTags = () => {};
+  renderTitle = () => {
+    if(this.state.isEditing){
+      return <input type="text" className="form-control" value={this.state.title} onChange={this.handleTitleChange}></input>;
+    }
+    else {
+      return <h1>{this.state.title}</h1>;
+    }
+  };
 
-  renderContent = () => {};
+  renderTags = () => {
+    if(this.state.isEditing){
+      return <TagsInput value={this.state.tags} onChange={this.handleTagsChange}/>;
+    }
+    else {
+      return <div>
+        {this.state.tags.map((tag,index) => <button key={index + 1}
+          type="button"
+          className="btn btn-secondary btn-sm">#{tag}</button>)}
+      </div>;
+    }
+  };
+
+  renderContent = () => {
+    if(this.state.isEditing){
+      return <ReactQuill theme="snow" value={this.state.content} onChange={this.handleQuillChange}/>;
+    }
+    else {
+      return <div className="jumbotron" dangerouslySetInnerHTML={{__html: this.state.content}}/>;
+    }
+  };
 
   render() {
     const { isEditing } = this.state;
